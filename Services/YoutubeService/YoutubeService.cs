@@ -1,14 +1,18 @@
 ﻿using YoutubeExplode;
 using YoutubeExplode.Converter;
+using DJPPDL.Utils;
 
 namespace DJPPDL.Services
 {
     public class YoutubeService : IYoutubeService
     {
         private readonly YoutubeClient _ytclient;
-        public YoutubeService()
+        private readonly IStringFormatter _stringFormatter;
+
+        public YoutubeService(YoutubeClient ytclient, IStringFormatter stringFormatter)
         {
-            _ytclient = new YoutubeClient();
+            _ytclient = ytclient;
+            _stringFormatter = stringFormatter;
         }
 
         public async Task<bool> DownloadVideoWithUri(String uri, String location, String format)
@@ -18,7 +22,11 @@ namespace DJPPDL.Services
             {
                 var video = await _ytclient.Videos.GetAsync(uri);
 
-                await _ytclient.Videos.DownloadAsync(uri, $"{location}/{video.Title}.{format}");
+                string fileName = _stringFormatter.RemoveSpecialCharacters(video.Title);
+
+                Console.WriteLine($"Downloading {fileName} ...");
+
+                await _ytclient.Videos.DownloadAsync(uri, $"{location}/{fileName}.{format}");
             }
             catch
             {
