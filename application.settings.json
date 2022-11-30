@@ -1,0 +1,6 @@
+{
+    "FileOptions":{
+        "Formats": ["wav", "mp3"],
+        "Locations": ["C:/Users/Public/Downloads"]
+    }
+}

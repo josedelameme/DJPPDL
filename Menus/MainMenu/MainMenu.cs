@@ -23,7 +23,7 @@ public class MainMenu
             Console.Write("\n1: Download with link");
             Console.Write("\n9: Config");
             Console.Write("\n0: Exit");
-            Console.Write("\n");
+            Console.Write("\n\n");
 
             string? option = Console.ReadLine();
 

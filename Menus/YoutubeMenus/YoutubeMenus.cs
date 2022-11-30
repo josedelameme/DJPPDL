@@ -13,7 +13,7 @@ public class YoutubeMenus : IYoutubeMenus
     {
         String location = "C:/Users/Public/Downloads";
         String format = "wav";
-        Console.WriteLine("Youtube URL:");
+        Console.WriteLine("Youtube URL:\n");
         string? uri = Console.ReadLine();
         Console.Clear();
         bool result = false;
@@ -30,7 +30,7 @@ public class YoutubeMenus : IYoutubeMenus
         {
             Console.WriteLine("Failed to Download!");
         }
-        Console.WriteLine("\n\nPress any key to continue...");
+        Console.WriteLine("\n\nPress any key to continue...\n");
         Console.ReadLine();
     }
 }
