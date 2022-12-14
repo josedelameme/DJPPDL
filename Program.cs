@@ -14,13 +14,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
         IHostEnvironment env = hostingContext.HostingEnvironment;
         configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         IConfigurationRoot configurationRoot = configuration.Build();
-
-        // DLFileOptions options = new();
-        // configurationRoot.GetSection(nameof(DLFileOptions))
-        //                  .Bind(options);
-
-        // Console.WriteLine($"XD: {options.Formats}");
-        // Console.WriteLine($"XD: {options.Locations}");
     })
     .ConfigureServices(
     (context, services) =>
@@ -33,6 +26,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         .AddSingleton<YoutubeClient>()
         .AddSingleton<IYoutubeService, YoutubeService>()
         .AddSingleton<IYoutubeMenus, YoutubeMenus>()
+        .AddSingleton<IOptionsMenus, OptionsMenus>()
         .AddSingleton<MainMenu>();
     })
     .Build();

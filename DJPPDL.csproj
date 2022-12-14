@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="YoutubeExplode" Version="6.2.4" />
     <PackageReference Include="YoutubeExplode.Converter" Version="6.2.4" />
   </ItemGroup>
