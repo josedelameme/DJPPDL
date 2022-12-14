@@ -34,5 +34,26 @@ namespace DJPPDL.Services
             }
             return result;
         }
+
+        public async Task<bool> DownloadPlaylistWithUri(String uri, String location, String format)
+        {
+            bool result = true;
+            try
+            {
+                await foreach (var video in _ytclient.Playlists.GetVideosAsync(uri))
+                {
+                    string fileName = _stringFormatter.RemoveSpecialCharacters(video.Title);
+                    string videoUrl = video.Url;
+                    Console.WriteLine($"Downloading {fileName} ...");
+
+                    await _ytclient.Videos.DownloadAsync(videoUrl, $"{location}/{fileName}.{format}");
+                }
+            }
+            catch
+            {
+                result = false;
+            }
+            return result;
+        }
     }
 }

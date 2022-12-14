@@ -54,7 +54,7 @@ public class OptionsMenus : IOptionsMenus
                     break;
                 default:
                     Console.Clear();
-                    Console.WriteLine("TBD");
+                    Console.WriteLine("Please choose a valid option");
                     System.Threading.Thread.Sleep(1000);
                     break;
             }
@@ -130,7 +130,7 @@ public class OptionsMenus : IOptionsMenus
                     break;
                 default:
                     Console.Clear();
-                    Console.WriteLine("TBD");
+                    Console.WriteLine("Please choose a valid option");
                     System.Threading.Thread.Sleep(1000);
                     break;
             }
@@ -181,7 +181,7 @@ public class OptionsMenus : IOptionsMenus
                     break;
                 default:
                     Console.Clear();
-                    Console.WriteLine("TBD");
+                    Console.WriteLine("Please choose a valid option");
                     System.Threading.Thread.Sleep(1000);
                     break;
             }
