@@ -26,6 +26,8 @@ public class MainMenu
             Console.Write("\n2: Download video with link (using defaults)");
             Console.Write("\n3: Download playlist with link");
             Console.Write("\n4: Download playlist with link (using defaults)");
+            Console.Write("\n5: Search and download");
+            Console.Write("\n6: Search and download (using defaults)");
             Console.Write("\n9: Config");
             Console.Write("\n0: Exit");
             Console.Write("\n\n");
@@ -36,19 +38,27 @@ public class MainMenu
             {
                 case "1":
                     Console.Clear();
-                    await _youtubeMenus.LinkDownload();
+                    await _youtubeMenus.LinkDownload(false);
                     break;
                 case "2":
                     Console.Clear();
-                    await _youtubeMenus.LinkDownloadDefaults();
+                    await _youtubeMenus.LinkDownload(true);
                     break;
                 case "3":
                     Console.Clear();
-                    await _youtubeMenus.LinkDownloadPlaylist();
+                    await _youtubeMenus.LinkDownloadPlaylist(false);
                     break;
                 case "4":
                     Console.Clear();
-                    await _youtubeMenus.LinkDownloadPlaylistDefaults();
+                    await _youtubeMenus.LinkDownloadPlaylist(true);
+                    break;
+                case "5":
+                    Console.Clear();
+                    await _youtubeMenus.SearchAndDownload(false);
+                    break;
+                case "6":
+                    Console.Clear();
+                    await _youtubeMenus.SearchAndDownload(true);
                     break;
                 case "9":
                     Console.Clear();

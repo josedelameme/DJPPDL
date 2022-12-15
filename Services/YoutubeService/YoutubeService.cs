@@ -1,5 +1,7 @@
 ﻿using YoutubeExplode;
 using YoutubeExplode.Converter;
+using YoutubeExplode.Search;
+using DJPPDL.Models;
 using DJPPDL.Utils;
 
 namespace DJPPDL.Services
@@ -54,6 +56,44 @@ namespace DJPPDL.Services
                 result = false;
             }
             return result;
+        }
+
+        public async Task<SearchResults> SearchVideo(String searchQuery)
+        {
+            bool result = true;
+            SearchResults searchResults = new SearchResults();
+            IList<YTVideoDTO> videoList = new List<YTVideoDTO>();
+            try
+            {
+                await foreach (var batch in _ytclient.Search.GetResultBatchesAsync(searchQuery))
+                {
+                    foreach (var searchResult in batch.Items)
+                    {
+                        switch (searchResult)
+                        {
+                            case VideoSearchResult videoSearchResult:
+                                videoList = videoList.Append<YTVideoDTO>(
+                                    new YTVideoDTO
+                                    {
+                                        author = videoSearchResult.Author.ChannelTitle,
+                                        title = videoSearchResult.Title,
+                                        duration = videoSearchResult.Duration,
+                                        ytUrl = videoSearchResult.Url
+                                    })
+                                    .ToList<YTVideoDTO>();
+                                break;
+                        }
+                    }
+                    break;
+                }
+                searchResults.videos = videoList;
+            }
+            catch
+            {
+                result = false;
+            }
+            searchResults.result = result;
+            return searchResults;
         }
     }
 }
