@@ -22,9 +22,13 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services
         .Configure<GeneralOptions>(
            configurationRoot.GetSection(nameof(GeneralOptions)))
+        .Configure<ServiceOptions>(
+           configurationRoot.GetSection(nameof(ServiceOptions)))
+        .AddSingleton<HttpClient>()
         .AddSingleton<IStringFormatter, StringFormatter>()
         .AddSingleton<YoutubeClient>()
         .AddSingleton<IYoutubeService, YoutubeService>()
+        .AddSingleton<ISpotifyService, SpotifyService>()
         .AddSingleton<IYoutubeMenus, YoutubeMenus>()
         .AddSingleton<IOptionsMenus, OptionsMenus>()
         .AddSingleton<MainMenu>();

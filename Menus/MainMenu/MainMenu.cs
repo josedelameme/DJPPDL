@@ -1,13 +1,17 @@
+using DJPPDL.Services;
+
 namespace DJPPDL.Menus;
 
 public class MainMenu
 {
     private readonly IYoutubeMenus _youtubeMenus;
     private readonly IOptionsMenus _optionsMenus;
-    public MainMenu(IYoutubeMenus youtubeMenus, IOptionsMenus optionsMenus)
+    private readonly ISpotifyService _spotifyService;
+    public MainMenu(IYoutubeMenus youtubeMenus, IOptionsMenus optionsMenus, ISpotifyService spotifyService)
     {
         _youtubeMenus = youtubeMenus;
         _optionsMenus = optionsMenus;
+        _spotifyService = spotifyService;
     }
 
 
@@ -28,6 +32,7 @@ public class MainMenu
             Console.Write("\n4: Download playlist with link (using defaults)");
             Console.Write("\n5: Search and download");
             Console.Write("\n6: Search and download (using defaults)");
+            Console.Write("\n7: TEST");
             Console.Write("\n9: Config");
             Console.Write("\n0: Exit");
             Console.Write("\n\n");
@@ -59,6 +64,10 @@ public class MainMenu
                 case "6":
                     Console.Clear();
                     await _youtubeMenus.SearchAndDownload(true);
+                    break;
+                case "7":
+                    Console.Clear();
+                    await _spotifyService.GetSpotifyTrack();
                     break;
                 case "9":
                     Console.Clear();
