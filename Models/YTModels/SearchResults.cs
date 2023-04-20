@@ -1,4 +1,4 @@
-namespace DJPPDL.Models;
+namespace DJPPDL.Models.YTModels;
 
 public class SearchResults
 {

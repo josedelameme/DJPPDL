@@ -1,17 +1,16 @@
 using DJPPDL.Services;
+using DJPPDL.Models.ServiceModels;
 
 namespace DJPPDL.Menus;
 
 public class MainMenu
 {
-    private readonly IYoutubeMenus _youtubeMenus;
+    private readonly IDownloadMenus _downloadMenus;
     private readonly IOptionsMenus _optionsMenus;
-    private readonly ISpotifyService _spotifyService;
-    public MainMenu(IYoutubeMenus youtubeMenus, IOptionsMenus optionsMenus, ISpotifyService spotifyService)
+    public MainMenu(IDownloadMenus downloadMenus, IOptionsMenus optionsMenus)
     {
-        _youtubeMenus = youtubeMenus;
+        _downloadMenus = downloadMenus;
         _optionsMenus = optionsMenus;
-        _spotifyService = spotifyService;
     }
 
 
@@ -26,14 +25,12 @@ public class MainMenu
         {
             Console.Clear();
             Console.WriteLine("Menu:");
-            Console.Write("\n1: Download video with link");
-            Console.Write("\n2: Download video with link (using defaults)");
-            Console.Write("\n3: Download playlist with link");
-            Console.Write("\n4: Download playlist with link (using defaults)");
-            Console.Write("\n5: Search and download");
-            Console.Write("\n6: Search and download (using defaults)");
-            Console.Write("\n7: TEST");
-            Console.Write("\n9: Config");
+            Console.Write("\n1: Download song or playlist with link");
+            Console.Write("\n2: Download song or playlist with link (using defaults)");
+            Console.Write("\n4: Search and download");
+            Console.Write("\n5: Search and download (using defaults)");
+            Console.Write("\n6: TEST");
+            Console.Write("\n7: Config");
             Console.Write("\n0: Exit");
             Console.Write("\n\n");
 
@@ -43,33 +40,25 @@ public class MainMenu
             {
                 case "1":
                     Console.Clear();
-                    await _youtubeMenus.LinkDownload(false);
+                    await _downloadMenus.LinkDownload(false);
                     break;
                 case "2":
                     Console.Clear();
-                    await _youtubeMenus.LinkDownload(true);
-                    break;
-                case "3":
-                    Console.Clear();
-                    await _youtubeMenus.LinkDownloadPlaylist(false);
+                    await _downloadMenus.LinkDownload(true);
                     break;
                 case "4":
                     Console.Clear();
-                    await _youtubeMenus.LinkDownloadPlaylist(true);
+                    await _downloadMenus.SearchAndDownload(false);
                     break;
                 case "5":
                     Console.Clear();
-                    await _youtubeMenus.SearchAndDownload(false);
+                    await _downloadMenus.SearchAndDownload(true);
                     break;
                 case "6":
                     Console.Clear();
-                    await _youtubeMenus.SearchAndDownload(true);
+                    Console.WriteLine("TESTING OPTION");
                     break;
                 case "7":
-                    Console.Clear();
-                    await _spotifyService.GetSpotifyTrack();
-                    break;
-                case "9":
                     Console.Clear();
                     _optionsMenus.GeneralConfigMenu();
                     break;

@@ -1,6 +1,8 @@
+using DJPPDL.Models.ServiceModels;
+
 namespace DJPPDL.Services;
 
 public interface ISpotifyService
 {
-    Task<bool> GetSpotifyTrack();
+    Task<ServiceResult> GetSpotifyTrack(string trackId);
 }

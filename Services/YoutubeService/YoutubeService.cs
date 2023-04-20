@@ -1,7 +1,7 @@
 ﻿using YoutubeExplode;
 using YoutubeExplode.Converter;
 using YoutubeExplode.Search;
-using DJPPDL.Models;
+using DJPPDL.Models.YTModels;
 using DJPPDL.Utils;
 
 namespace DJPPDL.Services
@@ -28,9 +28,9 @@ namespace DJPPDL.Services
 
                 Console.WriteLine($"Downloading {fileName} ...");
 
-                await _ytclient.Videos.DownloadAsync(uri, $"{location}/{fileName}.{format}");
+                await _ytclient.Videos.DownloadAsync(video.Url, $"{location}/{fileName}.{format}");
             }
-            catch
+            catch 
             {
                 result = false;
             }

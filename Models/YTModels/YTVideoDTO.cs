@@ -1,5 +1,5 @@
 using System;
-namespace DJPPDL.Models;
+namespace DJPPDL.Models.YTModels;
 
 public class YTVideoDTO
 {

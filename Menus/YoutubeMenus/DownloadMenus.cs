@@ -1,20 +1,24 @@
 using Microsoft.Extensions.Options;
 using DJPPDL.Services;
 using DJPPDL.Options;
-using DJPPDL.Models;
+using DJPPDL.Models.ServiceModels;
+using DJPPDL.Models.YTModels;
+using DJPPDL.Utils;
+
 namespace DJPPDL.Menus;
 
 
-public class YoutubeMenus : IYoutubeMenus
+public class DownloadMenus : IDownloadMenus
 {
     private readonly IYoutubeService _youtubeService;
     private readonly IOptionsMenus _optionsMenus;
-
+    private readonly IStringParser _stringParser;
     private readonly IOptionsMonitor<GeneralOptions> _optionsMonitor;
-    public YoutubeMenus(IYoutubeService youtubeService, IOptionsMenus optionsMenus, IOptionsMonitor<GeneralOptions> optionsMonitor)
+    public DownloadMenus(IYoutubeService youtubeService, IOptionsMenus optionsMenus, IOptionsMonitor<GeneralOptions> optionsMonitor, IStringParser stringParser)
     {
         _youtubeService = youtubeService;
         _optionsMenus = optionsMenus;
+        _stringParser = stringParser;
         _optionsMonitor = optionsMonitor;
     }
     public async Task LinkDownload(bool useDefaults)
@@ -30,54 +34,13 @@ public class YoutubeMenus : IYoutubeMenus
 
         if (format != null && location != null)
         {
-            Console.WriteLine("Youtube video URL:\n");
+            Console.WriteLine("Youtube (video or playlist) or Spotify (song or songs) URL:\n");
             string? uri = Console.ReadLine();
             Console.Clear();
-            bool result = false;
-            if (uri != null)
-            {
-                result = await _youtubeService.DownloadVideoWithUri(uri, location, format);
-            }
-            Console.Clear();
-            if (result)
-            {
-                Console.WriteLine("Successful Download!");
-            }
-            else
-            {
-                Console.WriteLine("Failed to Download!");
-            }
-            Console.WriteLine("\n\nPress any key to continue...\n");
-            Console.ReadLine();
-        }
-        else
-        {
-            Console.WriteLine("\n\nError on retrieving Configuration values...\n");
-        }
-    }
-    public async Task LinkDownloadPlaylist(bool useDefaults)
-    {
-        string? format = useDefaults ?
-            _optionsMonitor.CurrentValue?.DLFileOptions?[0].defaultValue
-            : _optionsMenus.ChooseFromOptionsList(OptionsConstants.DL_FILE_OPTIONS, OptionsConstants.FORMATS);
-        string? location = useDefaults ?
-            _optionsMonitor.CurrentValue?.DLFileOptions?[1].defaultValue
-            : _optionsMenus.ChooseFromOptionsList(OptionsConstants.DL_FILE_OPTIONS, OptionsConstants.LOCATIONS);
 
-        Console.Clear();
+            ServiceResult serviceResult = await SelectServiceAndDownload(uri, location, format);
 
-        if (format != null && location != null)
-        {
-            Console.WriteLine("Youtube Playlist URL:\n");
-            string? uri = Console.ReadLine();
-            Console.Clear();
-            bool result = false;
-            if (uri != null)
-            {
-                result = await _youtubeService.DownloadPlaylistWithUri(uri, location, format);
-            }
-            Console.Clear();
-            if (result)
+            if (serviceResult.result == true)
             {
                 Console.WriteLine("Successful Download!");
             }
@@ -165,6 +128,41 @@ public class YoutubeMenus : IYoutubeMenus
             Console.WriteLine("\n\nPlease input a value...\n");
             System.Threading.Thread.Sleep(1500);
         }
+    }
+
+    private async Task<ServiceResult> SelectServiceAndDownload(string? uri, string location, string format)
+    {
+        ServiceResult result = new ServiceResult();
+        string? parsedUrl = null;
+        string? service = null;
+        bool downloadResult = false;
+
+        if (uri != null)
+        {
+            UrlParserResult parserResult = _stringParser.ParseUrl(uri);
+            service = parserResult.service;
+            parsedUrl = parserResult.output;
+        }
+
+        if (parsedUrl != null && service != null)
+        {
+            switch (service)
+            {
+                case StringParser.YOUTUBE_SONG:
+                    downloadResult = await _youtubeService.DownloadVideoWithUri(parsedUrl, location, format);
+                    break;
+                case StringParser.YOUTUBE_PLAYLIST:
+                    downloadResult = await _youtubeService.DownloadPlaylistWithUri(parsedUrl, location, format);
+                    break;
+                default:
+                    break;
+
+            }
+
+            result.result = downloadResult;
+        }
+
+        return result;
     }
 }
 

@@ -1,4 +1,4 @@
-﻿using DJPPDL.Models;
+﻿using DJPPDL.Models.YTModels;
 
 namespace DJPPDL.Services
 {
