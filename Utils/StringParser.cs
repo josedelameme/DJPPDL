@@ -5,6 +5,7 @@ public class StringParser : IStringParser
 {
     public const string YOUTUBE_PLAYLIST = "YoutubePlaylist";
     public const string YOUTUBE_SONG = "YoutubeSong";
+    public const string SPOTIFY_SONG = "SpotifySong";
     public UrlParserResult ParseUrl(string url)
     {
         string? service = null;
@@ -27,7 +28,7 @@ public class StringParser : IStringParser
 
         if (url.Contains("spotify"))
         {
-            service = "Spotify";
+            service = SPOTIFY_SONG;
             id = url;
             if (id.Contains("track/"))
             {
